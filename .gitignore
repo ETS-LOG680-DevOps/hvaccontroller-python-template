@@ -127,3 +127,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# vsCode
+.vscode/*
+
+# SSH Key
+deploy_rsa
+deploy_rsa.pub
+
+# PipEnv
+Pipfile
+Pipfile.lock
