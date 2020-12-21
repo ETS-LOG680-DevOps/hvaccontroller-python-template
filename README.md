@@ -16,7 +16,7 @@ Select the python interpreter of this virtual environment
 ## To run project
 In terminal: ```python3 main.py```
 
-if using virtual environnment, in terminal: ```<path>/python3 main.py```
+if using virtual environnment, in terminal: ```<path>/python.exe main.py```
 ## Unit Test
 
 ### To run unit test
