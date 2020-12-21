@@ -67,7 +67,6 @@ class Main:
         r = requests.get(f"http://ec2-52-7-99-159.compute-1.amazonaws.com:32775/api/hvac/1sM9sJ6gXT/{action}/{nbTick}") 
         details = json.loads(r.text)
         print(details)
-        self.saveHvacAction(date, details["Response"])
 
 if __name__ == '__main__':
     main = Main()
