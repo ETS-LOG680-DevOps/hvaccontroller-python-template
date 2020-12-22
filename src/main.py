@@ -11,7 +11,8 @@ import mysql.connector as mysql
 
 class Main:
     def __init__(self):
-        self._hub_connection = None     
+        self._hub_connection = None
+        self.TOKEN = "<insert token here>" 
     
     def __del__(self):
         if (self._hub_connection != None):
@@ -33,7 +34,7 @@ class Main:
 
     def setSensorHub(self):
         self._hub_connection = HubConnectionBuilder()\
-        .with_url("http://ec2-52-7-99-159.compute-1.amazonaws.com:32775/SensorHub?token=1sM9sJ6gXT")\
+        .with_url(f"http://ec2-52-7-99-159.compute-1.amazonaws.com:32775/SensorHub?token={self.TOKEN}")\
         .configure_logging(logging.INFO)\
         .with_automatic_reconnect({
             "type": "raw",
@@ -64,7 +65,7 @@ class Main:
             self.sendActionToHvac(date, "TurnOnHeater", 6)
 
     def sendActionToHvac(self, date, action, nbTick):
-        r = requests.get(f"http://ec2-52-7-99-159.compute-1.amazonaws.com:32775/api/hvac/1sM9sJ6gXT/{action}/{nbTick}") 
+        r = requests.get(f"http://ec2-52-7-99-159.compute-1.amazonaws.com:32775/api/hvac/{self.TOKEN}/{action}/{nbTick}") 
         details = json.loads(r.text)
         print(details)
 
