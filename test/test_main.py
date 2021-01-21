@@ -9,7 +9,7 @@ import mysql.connector as mysql
 class TestStringMethods(unittest.TestCase):
 
     def test_simulator_up(self):
-        r = requests.get(f"http://ec2-52-7-99-159.compute-1.amazonaws.com:32775/api/health") 
+        r = requests.get(f"http://ec2-3-95-154-24.compute-1.amazonaws.com:32775/api/health") 
         self.assertEqual("All system operational Commander !", r.text)
     
     def test_upper(self):
