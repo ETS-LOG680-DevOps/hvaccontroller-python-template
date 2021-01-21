@@ -34,7 +34,7 @@ class Main:
 
     def setSensorHub(self):
         self._hub_connection = HubConnectionBuilder()\
-        .with_url(f"http://ec2-52-7-99-159.compute-1.amazonaws.com:32775/SensorHub?token={self.TOKEN}")\
+        .with_url(f"http://ec2-3-95-154-24.compute-1.amazonaws.com:32775/SensorHub?token={self.TOKEN}")\
         .configure_logging(logging.INFO)\
         .with_automatic_reconnect({
             "type": "raw",
@@ -65,7 +65,7 @@ class Main:
             self.sendActionToHvac(date, "TurnOnHeater", 6)
 
     def sendActionToHvac(self, date, action, nbTick):
-        r = requests.get(f"http://ec2-52-7-99-159.compute-1.amazonaws.com:32775/api/hvac/{self.TOKEN}/{action}/{nbTick}") 
+        r = requests.get(f"http://ec2-3-95-154-24.compute-1.amazonaws.com:32775/api/hvac/{self.TOKEN}/{action}/{nbTick}") 
         details = json.loads(r.text)
         print(details)
 
