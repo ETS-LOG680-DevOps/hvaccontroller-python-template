@@ -24,7 +24,7 @@ At the root folder: run ```python -m unittest discover -v```
 
 ## SignalR & API
 The client use SignalR to receive data and get request to activate the hvac unit
-Server: http://ec2-52-7-99-159.compute-1.amazonaws.com:32775/
+Server: http://ec2-3-95-154-24.compute-1.amazonaws.com:32775/
 
 ### SignalR
 To receive continuous data from the server, we use SignalR. SignalR allow us to mimic real-time data sent to the client. https://github.com/mandrewcito/signalrcore
