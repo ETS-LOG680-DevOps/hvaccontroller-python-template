@@ -6,18 +6,13 @@ import os
 from src.main import Main
 import mysql.connector as mysql
 
+HOST = os.environ["HVAC_HOST"]
+
 class TestStringMethods(unittest.TestCase):
 
     def test_simulator_up(self):
-        r = requests.get(f"http://ec2-3-95-154-24.compute-1.amazonaws.com:32775/api/health") 
+        r = requests.get(f"{HOST}/api/health") 
         self.assertEqual("All system operational Commander !", r.text)
     
-    def test_upper(self):
-        self.assertEqual('foo'.upper(), 'FOO')
-
-    def test_isupper(self):
-        self.assertTrue('FOO'.isupper())
-        self.assertFalse('Foo'.isupper())
-
 if __name__ == '__main__':
     unittest.main()
