@@ -5,7 +5,7 @@ import requests
 import json
 import time
 import os
-import mysql.connector as mysql
+# import mysql.connector as mysql
 
 class Main:
     def __init__(self):
