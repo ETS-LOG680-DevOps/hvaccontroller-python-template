@@ -7,9 +7,7 @@ ENV LC_ALL C.UTF-8
 RUN apk update && apk add bash
 
 
-COPY config.sh app/config.sh
 COPY requirements.txt app/requirements.txt 
-COPY /.env app/.env
 COPY /src /app/src
 COPY /test /app/test
 
@@ -26,5 +24,5 @@ RUN pip install -r requirements.txt
 
 
 
-# ENTRYPOINT ["/bin/bash", "-c", "$@" ]
-ENTRYPOINT ["python3", "src/main.py"]
+ENTRYPOINT ["/bin/bash", "-c", "python3 $0 $@" ]
+# ENTRYPOINT ["python3", "src/main.py"]

@@ -3,8 +3,8 @@ import sys
 import requests
 import json
 import os
-from src.main import Main
-import mysql.connector as mysql
+# from src.main import Main
+# import mysql.connector as mysql
 
 HOST = os.environ["HVAC_HOST"]
 
