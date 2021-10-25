@@ -11,7 +11,27 @@ class Main:
     def __init__(self):
         self._hub_connection = None
         self.HOST = os.environ["HVAC_HOST"]
-        self.TOKEN = os.environ["HVAC_TOKEN"]
+
+        if (os.getenv("HVAC_TOKEN") == None):
+            self.TOKEN = "NOT_FOUND"
+        else:
+            self.TOKEN = os.environ["HVAC_TOKEN"]
+
+        if (os.getenv("HVAC_COLD_LIMIT") == None):
+            self.COLD_LIMIT = 20
+        else :
+            self.COLD_LIMIT = os.environ["HVAC_COLD_LIMIT"]
+
+        if (os.getenv("HVAC_HOT_LIMIT") == None):
+            self.HOT_LIMIT = 80
+        else :
+            self.HOT_LIMIT = os.environ["HVAC_HOT_LIMIT"]
+
+        if (os.getenv("HVAC_TICKS") == None):
+            self.TICKS = 6
+        else :
+            self.TICKS = os.environ["HVAC_TICKS"]
+       
     
     def __del__(self):
         if (self._hub_connection != None):
@@ -21,6 +41,10 @@ class Main:
         self.setSensorHub()        
 
     def start(self):
+        if (self.TOKEN == "NOT_FOUND"):
+            print("No token found ! The program cannot be executed !")
+            sys.exit(0)
+
         self.setup()
         self._hub_connection.start()
         
@@ -58,19 +82,16 @@ class Main:
             print(err)
     
     def analyzeDatapoint(self, date, data):
-        if (data >= 80.0):                
-            self.sendActionToHvac(date, "TurnOnAc", 6)
-        elif (data <= 20.0):                
-            self.sendActionToHvac(date, "TurnOnHeater", 6)
+        if (data >= float(self.HOT_LIMIT)):                
+            self.sendActionToHvac(date, "TurnOnAc", self.TICKS)
+        elif (data <= float(self.COLD_LIMIT)):                
+            self.sendActionToHvac(date, "TurnOnHeater", self.TICKS)
 
-    def sendActionToHvac(self, date, action, nbTick):
-        r = requests.get(f"{self.HOST}/api/hvac/{self.TOKEN}/{action}/{nbTick}") 
+    def sendActionToHvac(self, date, action):
+        r = requests.get(f"{self.HOST}/api/hvac/{self.TOKEN}/{action}/{self.TICKS}") 
         details = json.loads(r.text)
         print(details)
 
 if __name__ == '__main__':
     main = Main()
     main.start()
-
-
-
