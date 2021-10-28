@@ -7,7 +7,7 @@ ENV LC_ALL C.UTF-8
 RUN apk update && apk add bash
 
 
-COPY requirements.txt app/requirements.txt 
+COPY requirements.txt app/requirements.txt
 COPY /src /app/src
 COPY /test /app/test
 

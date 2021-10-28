@@ -39,4 +39,3 @@ To control the Hvac, we use GET HTTP requests. The nbTicks represent for how lon
 
 The server also has a Healthcheck endpoint to test if the server is running properly:
 - Healtcheck : *GET {serverUrl}/api/health*
-
