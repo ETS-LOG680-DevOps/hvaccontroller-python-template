@@ -1,6 +1,4 @@
-# FROM conda/miniconda
-# FROM python:3.8.2-alpine
-FROM ubuntu
+FROM python:3.8.2-alpine
 
 
 # Setup env
@@ -19,8 +17,6 @@ WORKDIR ./app
 
 RUN pip install -r requirements.txt
 
-
-# RUN python3 src/main.py
 
 ENTRYPOINT ["/bin/bash", "-c", "$0 $@" ]
 # ENTRYPOINT ["python3", "src/main.py"]
