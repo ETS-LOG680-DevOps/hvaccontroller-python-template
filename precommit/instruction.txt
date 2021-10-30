@@ -1,0 +1,4 @@
+Pour windows:
+1. dans le path du projet, taper "/.git"
+2. cliquer sur le dossier hooks
+3. insérer le fichier pre-commit
