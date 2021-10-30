@@ -26,3 +26,4 @@ env:
   global:
     - HVAC_HOST=https://log680.vincentboivin.ca 
     - HVAC_TOKEN=89103df59ad0cda23c2f
+
