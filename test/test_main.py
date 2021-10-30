@@ -13,7 +13,7 @@ class TestStringMethods(unittest.TestCase):
     def test_simulator_up(self):
         """Function to test if we receive an information from the server"""
         request = requests.get(f"{HOST}/api/health")
-        self.assertEqual("All system operational Commander !", request.text)
+        self.assertEqual("All system operational Commander!", request.text)
 
 if __name__ == '__main__':
     unittest.main()

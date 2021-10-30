@@ -1,6 +1,23 @@
 language: python
 python:
   - "3.7"
+services:
+  - docker
+# Build docker image and test
+before_install:
+  - docker build -t log680/labo2 latest
+  - docker ps -a
+  - docker run log680/labo2 /bin/sh -c "python test/test_main.py"
+# command to run tests
+script:
+  - python test/test_main.py
+# Push the docker image on main
+deploy:
+  - docker login
+  - docker push log680/labo2
+  on:
+    branch: main
+
 # command to install dependencies
 install:
   - pip install -r requirements.txt
@@ -9,6 +26,4 @@ env:
   global:
     - HVAC_HOST=https://log680.vincentboivin.ca 
     - HVAC_TOKEN=89103df59ad0cda23c2f
-# command to run tests
-script:
-  - python test/test_main.py
+

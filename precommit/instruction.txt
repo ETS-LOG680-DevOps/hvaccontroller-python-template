@@ -2,3 +2,6 @@ Pour windows:
 1. dans le path du projet, taper "/.git"
 2. cliquer sur le dossier hooks
 3. insérer le fichier pre-commit
+
+
+docker run --name log680 -e HVAC_HOST=https://log680.vincentboivin.ca -e HVAC_TOKEN=89103df59ad0cda23c2f  lab2:debug python3 src/main.py
