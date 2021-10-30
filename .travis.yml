@@ -1,5 +1,4 @@
 language: python
-os: windows
 python:
   - "3.10"
 # command to install dependencies
@@ -7,7 +6,9 @@ install:
   - pip install -r requirements.txt
 # adding environnment variables
 env:
-  - HVAC_HOST = https://log680.vincentboivin.ca HVAC_TOKEN = 89103df59ad0cda23c2f
+  global:
+    - HVAC_HOST = https://log680.vincentboivin.ca 
+    - HVAC_TOKEN = 89103df59ad0cda23c2f
 # command to run tests
 script:
   - python test/test_main.py
