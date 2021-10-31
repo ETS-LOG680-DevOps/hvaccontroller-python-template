@@ -5,22 +5,22 @@ services:
   - docker
 # Build docker image and test
 before_install:
-  - docker build -t log680/labo2 latest
+  - docker build -t labo2:latest .
   - docker ps -a
-  - docker run log680/labo2 /bin/sh -c "python test/test_main.py"
+  - docker run labo2:latest python3 test/test_main.py
 # command to run tests
-script:
+#script:
   - python test/test_main.py
 # Push the docker image on main
 deploy:
-  - docker login
-  - docker push log680/labo2
+  - docker login -u "$DOCKER_USERNAME" --password  "$DOCKER_PASSWORD"
+  - docker push "$DOCKER_USERNAME"/log680-lab2:latest
   on:
     branch: main
 
 # command to install dependencies
-install:
-  - pip install -r requirements.txt
+#install:
+#  - pip install -r requirements.txt
 # adding environnment variables
 env:
   global:
