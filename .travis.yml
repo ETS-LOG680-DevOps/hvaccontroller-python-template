@@ -9,7 +9,7 @@ before_install:
   - docker ps -a
   - docker run labo2:latest python3 test/test_main.py
 # command to run tests
-#script:
+script: echo "script"
 #  - python test/test_main.py
 # Push the docker image on main
 deploy:
