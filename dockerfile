@@ -15,8 +15,9 @@ COPY requirements.txt app/requirements.txt
 COPY /src /app/src
 COPY /test /app/test
 
-WORKDIR ./app
+WORKDIR /app
 
 RUN pip install -r requirements.txt
+
 
 ENTRYPOINT ["/bin/bash", "-c", "$0 $@" ]

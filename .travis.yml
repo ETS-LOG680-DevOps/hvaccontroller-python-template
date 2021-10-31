@@ -3,17 +3,19 @@ python:
   - "3.8"
 services:
   - docker
+
 # Build docker image and test
 before_install:
   - docker build -t projetsplets1/log680-lab2 .
   - docker ps -a
   - docker run projetsplets1/log680-lab2 python3 test/test_main.py
-# command to run tests
-script: echo "script"
-#  - python test/test_main.py
-# Push the docker image on main
+
+# Deploy docker image
 deploy:
   provider: script
   script: bash docker_deploy.sh
   on:
     branch: main
+
+script: echo "script"
+
