@@ -22,5 +22,3 @@ RUN pip install -r requirements.txt
 
 
 ENTRYPOINT ["/bin/bash", "-c", "$0 $@" ]
-# ENTRYPOINT ["python3", "src/main.py"]
-# ENTRYPOINT ["python3", "test/main_test.py"]
