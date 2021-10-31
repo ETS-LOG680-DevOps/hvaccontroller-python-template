@@ -2,7 +2,10 @@
 
 import unittest
 import os
+import sys
 import requests
+# pylint disable=wrong-import-position
+sys.path.append(os.getcwd())
 from src.main import Main
 # import mysql.connector as mysql
 
