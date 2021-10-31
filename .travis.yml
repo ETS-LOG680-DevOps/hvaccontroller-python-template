@@ -3,7 +3,7 @@ python:
   - "3.8"
 services:
   - docker
-  
+
 # Build docker image and test
 before_install:
   - docker build -t projetsplets1/log680-lab2 .
@@ -17,6 +17,5 @@ deploy:
   on:
     branch: main
 
-script: 
-  - pytest
+script: echo "script"
 
