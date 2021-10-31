@@ -5,10 +5,9 @@ services:
   - docker
 # Build docker image and test
 before_install:
-  - docker build -t projetsplets1/log680-lab2:0.0.1 .
-  - docker build -t projetsplets1/log680-lab2:latest .
+  - docker build -t projetsplets1/log680-lab2 .
   - docker ps -a
-  - docker run projetsplets1/log680-lab2:latest python3 test/test_main.py
+  - docker run projetsplets1/log680-lab2 python3 test/test_main.py
 # command to run tests
 script: echo "script"
 #  - python test/test_main.py
