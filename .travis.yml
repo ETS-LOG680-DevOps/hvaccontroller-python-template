@@ -1,6 +1,6 @@
 language: python
 python:
-  - "3.7"
+  - "3.8"
 services:
   - docker
 # Build docker image and test
@@ -10,11 +10,11 @@ before_install:
   - docker run labo2:latest python3 test/test_main.py
 # command to run tests
 #script:
-  - python test/test_main.py
+#  - python test/test_main.py
 # Push the docker image on main
 deploy:
-  - docker login -u "$DOCKER_USERNAME" --password  "$DOCKER_PASSWORD"
-  - docker push "$DOCKER_USERNAME"/log680-lab2:latest
+  provider: script
+  script: bash docker_deploy
   on:
     branch: main
 
