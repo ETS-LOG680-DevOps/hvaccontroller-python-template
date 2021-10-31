@@ -17,9 +17,3 @@ deploy:
   script: bash docker_deploy
   on:
     branch: main
-
-# command to install dependencies
-#install:
-#  - pip install -r requirements.txt
-# adding environnment variables
-

@@ -22,7 +22,7 @@ idna==2.10
 
 msgpack==1.0.2
 
-#mysql-connector==2.2.9
+mysql-connector==2.2.9
 
 requests==2.25.1
 
