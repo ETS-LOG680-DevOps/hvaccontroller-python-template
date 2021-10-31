@@ -13,16 +13,6 @@ COPY /test /app/test
 
 WORKDIR ./app
 
-RUN ls -a
-
-# RUN pip install pipenv
-# RUN pipenv shell
-
 RUN pip install -r requirements.txt
-# RUN pipenv install --system --deploy --ignore-pipfile
-
-
-
 
 ENTRYPOINT ["/bin/bash", "-c", "$0 $@" ]
-# ENTRYPOINT ["python3", "src/main.py"]

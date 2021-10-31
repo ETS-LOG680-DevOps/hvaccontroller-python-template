@@ -12,36 +12,35 @@ class Main:
         self._hub_connection = None
         self.HOST = os.environ["HVAC_HOST"]
 
-        if (os.getenv("HVAC_TOKEN") == None):
+        if os.getenv("HVAC_TOKEN") == None:
             self.TOKEN = "NOT_FOUND"
         else:
             self.TOKEN = os.environ["HVAC_TOKEN"]
 
-        if (os.getenv("HVAC_COLD_LIMIT") == None):
+        if os.getenv("HVAC_COLD_LIMIT") == None:
             self.COLD_LIMIT = 20
         else :
             self.COLD_LIMIT = os.environ["HVAC_COLD_LIMIT"]
 
-        if (os.getenv("HVAC_HOT_LIMIT") == None):
+        if os.getenv("HVAC_HOT_LIMIT") == None:
             self.HOT_LIMIT = 80
         else :
             self.HOT_LIMIT = os.environ["HVAC_HOT_LIMIT"]
 
-        if (os.getenv("HVAC_TICKS") == None):
+        if os.getenv("HVAC_TICKS") == None:
             self.TICKS = 6
         else :
             self.TICKS = os.environ["HVAC_TICKS"]
-       
-    
+
     def __del__(self):
-        if (self._hub_connection != None):
+        if self._hub_connection != None:
             self._hub_connection.stop()
 
     def setup(self):
-        self.setSensorHub()        
+        self.setSensorHub()
 
     def start(self):
-        if (self.TOKEN == "NOT_FOUND"):
+        if self.TOKEN == "NOT_FOUND":
             print("No token found ! The program cannot be executed !")
             sys.exit(0)
 
@@ -82,7 +81,7 @@ class Main:
             print(err)
     
     def analyzeDatapoint(self, date, data):
-        if (data >= float(self.HOT_LIMIT)):                
+        if data >= float(self.HOT_LIMIT):                
             self.sendActionToHvac(date, "TurnOnAc", self.TICKS)
         elif (data <= float(self.COLD_LIMIT)):                
             self.sendActionToHvac(date, "TurnOnHeater", self.TICKS)
