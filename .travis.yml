@@ -14,6 +14,6 @@ script: echo "script"
 # Push the docker image on main
 deploy:
   provider: script
-  script: bash docker_deploy
+  script: bash docker_deploy.sh
   on:
     branch: main
