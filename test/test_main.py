@@ -20,7 +20,7 @@ class TestStringMethods(unittest.TestCase):
     def test_simulator_up(self):
         """Function to test if we receive an information from the server"""
         request = requests.get(f"{HOST}/api/health")
-        self.assertEqual("All system operational Commander!", request.text)
+        self.assertEqual("All system operational Commander !", request.text)
 
     def test_token(self):
         """Test if the token in the environment variable is good"""
