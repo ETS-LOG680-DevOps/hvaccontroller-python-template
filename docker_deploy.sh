@@ -1,5 +1,5 @@
 #!/bin/bash
-project_version=0.0.1
+project_version=1.0.1
 echo "running login"
 docker login -u "$DOCKER_USERNAME" --password "$DOCKER_PASSWORD"
 echo "running push"
