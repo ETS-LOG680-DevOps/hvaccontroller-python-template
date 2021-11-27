@@ -7,6 +7,8 @@ import time
 import os
 import requests # pylint: disable=import-error
 from signalrcore.hub_connection_builder import HubConnectionBuilder # pylint: disable=import-error
+import pymysql.cursors
+from datetime import datetime
 # import mysql.connector as mysql
 
 
@@ -36,6 +38,10 @@ class Main:
         else :
             self.ticks = os.environ["HVAC_TICKS"]
 
+        self.__connection = self.__connectToDb(); 
+
+
+
     def __del__(self):
         if self._hub_connection is not None:
             self._hub_connection.stop()
@@ -43,6 +49,15 @@ class Main:
     def setup(self):
         """Setup function"""
         self.set_sensor_hub()
+
+    def __connectToDb(self):
+        return pymysql.connect(host='rds-mysql-log680.c7uah2hdmjkm.us-east-2.rds.amazonaws.com',
+                                    user='admin',
+                                    password='gr01eq07',
+                                    db='log680_db_gr01_eq07',
+                                    port=3306,
+                                    )
+
 
     def start(self):
         """Start function"""
@@ -81,12 +96,33 @@ class Main:
     def on_sensor_data_received(self, data):
         """Function to extract the date and the temperature when we reveive data"""
         try:
-            print(data[0]["date"]  + " --> " + data[0]["data"])
+            tempDate = data[0]["date"] 
             temperature = float(data[0]["data"])
+            
+            print(tempDate  + " --> " + data[0]["data"])
+            
+            insert_temperature_toDb(tempDate, temperature)
 
             self.analyze_datapoint(temperature)
         # pylint: disable=broad-except
         except Exception as err:
+            print(err)
+
+    def insert_temperature_toDb(self, timestamp, temperature):
+        connection = self.__connection
+
+        try:
+            with connection:
+                with connection.cursor() as cursor:
+
+                    # Create a new record
+                    sql = "INSERT INTO `TEMPERATURE` (`timestamp`, `temperature`) VALUES (%s, %s)"
+                    cursor.execute(sql, (timestamp, temperature))
+
+                # connection is not autocommit by default. So you must commit to save
+                # your changes.
+                connection.commit()
+        except Exception as err: 
             print(err)
 
     def analyze_datapoint(self, data):
@@ -95,12 +131,36 @@ class Main:
             self.send_action_to_hvac("TurnOnAc", self.ticks)
         elif data <= float(self.cold_limit):
             self.send_action_to_hvac("TurnOnHeater", self.ticks)
+    
+
 
     def send_action_to_hvac(self, action, ticks):
         """Function to send order to the hvac"""
+
+        actionDate = datetime.datetime.now()
+        insert_hvac_event_toDb(actionDate, action, ticks)
+        
         request = requests.get(f"{self.host}/api/hvac/{self.token}/{action}/{ticks}")
         details = json.loads(request.text)
         print(details)
+
+    def insert_hvac_event_toDb(self, timestamp, event, ticks):
+        connection = self.__connection
+
+        try: 
+            with connection:
+                with connection.cursor() as cursor:
+
+                    # Create a new record
+                    sql = "INSERT INTO `HVAC_EVENT` (`timestamp`, `event`, `tick`) VALUES (%s, %s, %s)"
+                    cursor.execute(sql, (timestamp, event, ticks))
+
+                # connection is not autocommit by default. So you must commit to save
+                # your changes.
+                connection.commit()
+        except Exception as err: 
+            print(err)
+
 
 if __name__ == '__main__':
     main = Main()
