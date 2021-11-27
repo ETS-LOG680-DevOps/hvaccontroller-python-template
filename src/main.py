@@ -5,6 +5,8 @@ import sys
 import json
 import time
 import os
+from typing import final
+from pymysql import connect
 import requests # pylint: disable=import-error
 from signalrcore.hub_connection_builder import HubConnectionBuilder # pylint: disable=import-error
 import pymysql.cursors
@@ -29,7 +31,7 @@ class Main:
             self.cold_limit = os.environ["HVAC_COLD_LIMIT"]
 
         if os.getenv("HVAC_HOT_LIMIT") is None:
-            self.hot_limit = 80
+            self.hot_limit = 50
         else :
             self.hot_limit = os.environ["HVAC_HOT_LIMIT"]
 
@@ -103,28 +105,11 @@ class Main:
             print(tempDate  + " --> " + data[0]["data"])
             
             self.insert_temperature_toDb(tempDate, temperature)
-
             self.analyze_datapoint(temperature)
         # pylint: disable=broad-except
         except Exception as err:
             print(err)
 
-    def insert_temperature_toDb(self, timestamp, temperature):
-        connection = self.__connection
-
-        try:
-            with connection:
-                with connection.cursor() as cursor:
-
-                    # Create a new record
-                    sql = "INSERT INTO `TEMPERATURE` (`timestamp`, `temperature`) VALUES (%s, %s)"
-                    cursor.execute(sql, (timestamp, temperature))
-
-                # connection is not autocommit by default. So you must commit to save
-                # your changes.
-                connection.commit()
-        except Exception as err: 
-            print(err)
 
     def analyze_datapoint(self, data):
         """Function to activate the AC or heater if the temperature is too high or too low"""
@@ -138,15 +123,22 @@ class Main:
     def send_action_to_hvac(self, action, ticks):
         """Function to send order to the hvac"""
 
-        actionDate = datetime.now()
-        self.insert_hvac_event_toDb(actionDate, action, ticks)
         
         request = requests.get(f"{self.host}/api/hvac/{self.token}/{action}/{ticks}")
         details = json.loads(request.text)
         print(details)
+        self.insert_hvac_event_toDb(datetime.now(), action, ticks)
+
+
+
 
     def insert_hvac_event_toDb(self, timestamp, event, ticks):
-        connection = self.__connection
+        connection = pymysql.connect(host='rds-mysql-log680.c7uah2hdmjkm.us-east-2.rds.amazonaws.com',
+                                    user='admin',
+                                    password='gr01eq07',
+                                    db='log680_db_gr01_eq07',
+                                    port=3306,
+                                    )
 
         try: 
             with connection:
@@ -155,6 +147,30 @@ class Main:
                     # Create a new record
                     sql = "INSERT INTO `HVAC_EVENT` (`timestamp`, `event`, `tick`) VALUES (%s, %s, %s)"
                     cursor.execute(sql, (timestamp, event, ticks))
+
+                # connection is not autocommit by default. So you must commit to save
+                # your changes.
+                connection.commit()
+        except Exception as err: 
+            print(err)
+
+
+
+    def insert_temperature_toDb(self, timestamp, temperature):
+        connection = pymysql.connect(host='rds-mysql-log680.c7uah2hdmjkm.us-east-2.rds.amazonaws.com',
+                                    user='admin',
+                                    password='gr01eq07',
+                                    db='log680_db_gr01_eq07',
+                                    port=3306,
+                                    )
+        # timestamp = timestamp.str
+        try:
+            with connection:
+                with connection.cursor() as cursor:
+
+                    # Create a new record
+                    sql = "INSERT INTO `TEMPERATURE` (`timestamp`, `temperature`) VALUES (%s, %s)"
+                    cursor.execute(sql, (timestamp, temperature))
 
                 # connection is not autocommit by default. So you must commit to save
                 # your changes.
