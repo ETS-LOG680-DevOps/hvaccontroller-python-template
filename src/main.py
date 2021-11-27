@@ -96,12 +96,13 @@ class Main:
     def on_sensor_data_received(self, data):
         """Function to extract the date and the temperature when we reveive data"""
         try:
-            tempDate = data[0]["date"] 
+            tempDate = data[0]["date"]
+
             temperature = float(data[0]["data"])
             
             print(tempDate  + " --> " + data[0]["data"])
             
-            insert_temperature_toDb(tempDate, temperature)
+            self.insert_temperature_toDb(tempDate, temperature)
 
             self.analyze_datapoint(temperature)
         # pylint: disable=broad-except
@@ -137,8 +138,8 @@ class Main:
     def send_action_to_hvac(self, action, ticks):
         """Function to send order to the hvac"""
 
-        actionDate = datetime.datetime.now()
-        insert_hvac_event_toDb(actionDate, action, ticks)
+        actionDate = datetime.now()
+        self.insert_hvac_event_toDb(actionDate, action, ticks)
         
         request = requests.get(f"{self.host}/api/hvac/{self.token}/{action}/{ticks}")
         details = json.loads(request.text)
