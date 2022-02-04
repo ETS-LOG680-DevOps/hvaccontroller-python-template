@@ -23,7 +23,7 @@ At the root folder: run ```python -m unittest discover -v```
 
 ## SignalR & API
 The client use SignalR to receive data and get request to activate the hvac unit
-Server: https://log680.vincentboivin.ca
+Server: http://178.128.234.252:32775/
 
 ### SignalR
 To receive continuous data from the server, we use SignalR. SignalR allow us to mimic real-time data sent to the client. https://github.com/mandrewcito/signalrcore
