@@ -6,6 +6,6 @@ COPY . .
 ENV HVAC_HOST=http://178.128.234.252:32775
 ENV HVAC_TOKEN=WBhinj3isJ
 
-RUN #python -m unittest discover -v
+RUN python -m unittest discover -v
 
 CMD ["python", "./src/main.py"]
