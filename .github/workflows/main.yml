@@ -6,7 +6,7 @@ name: CI to Docker Hub
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   pull_request:
-    branches: [ main ]
+    branches: [ main, development ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -38,7 +38,7 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/lab2:${{ steps.vars.outputs.sha_short }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/lab2:latest
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

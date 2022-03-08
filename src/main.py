@@ -10,8 +10,8 @@ import mysql.connector as mysql
 class Main:
     def __init__(self):
         self._hub_connection = None
-        self.HOST = os.environ["HVAC_HOST"]
-        self.TOKEN = os.environ["HVAC_TOKEN"]
+        self.HOST = os.getenv("HVAC_HOST",'http://178.128.234.252:32775')
+        self.TOKEN = os.getenv("HVAC_TOKEN", 'WBhinj3isJ')
     
     def __del__(self):
         if (self._hub_connection != None):
