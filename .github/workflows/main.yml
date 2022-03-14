@@ -39,7 +39,7 @@ jobs:
           build-args: HVAC_HOST=http://178.128.234.252:32775,HVAC_TOKEN=WBhinj3isJ
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/lab2:latest, ${{ secrets.DOCKER_HUB_USERNAME }}/lab2:${{ github.event.pull_request.head.sha }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/lab2:latest, ${{ secrets.DOCKER_HUB_USERNAME }}/lab2:${{ github.event.push.after }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
