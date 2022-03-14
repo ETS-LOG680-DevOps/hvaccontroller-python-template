@@ -38,7 +38,7 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/lab2:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/lab2:latest, ${{ secrets.DOCKER_HUB_USERNAME }}/lab2:${{ github.event.pull_request.head.sha }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
