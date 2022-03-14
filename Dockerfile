@@ -6,6 +6,4 @@ COPY . .
 ARG HVAC_HOST
 ARG HVAC_TOKEN
 
-RUN python -m unittest discover -v
-
 CMD ["python", "./src/main.py"]
