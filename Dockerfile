@@ -3,8 +3,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .
-ENV HVAC_HOST=http://178.128.234.252:32775
-ENV HVAC_TOKEN=WBhinj3isJ
+ARG HVAC_HOST
+ARG HVAC_TOKEN
 
 RUN python -m unittest discover -v
 
