@@ -5,14 +5,25 @@ import requests
 import json
 import time
 import os
-import mysql.connector as mysql
+from dotenv import load_dotenv
 
+# Add .env variable in system variables, making them accessible from os.getenv()
+load_dotenv()
+print("a")
 
 class Main:
     def __init__(self):
         self._hub_connection = None
         self.HOST = os.getenv("HVAC_HOST", "http://178.128.234.252:32775")
-        self.TOKEN = os.getenv("HVAC_TOKEN", "WBhinj3isJ")
+
+        token = os.getenv("HVAC_TOKEN")
+        if token == None:
+            sys.exit("Error: Missing environment variable 'HVAC_TOKEN'")
+
+        self.HVAC_TOKEN = token
+        self.MIN_TEMP = float(os.getenv("MIN_TEMP", "20"))
+        self.MAX_TEMP = float(os.getenv("MAX_TEMP", "80"))
+        self.NB_TICK= int(os.getenv("NB_TICK", "6"))
 
     def __del__(self):
         if self._hub_connection != None:
@@ -35,7 +46,7 @@ class Main:
     def setSensorHub(self):
         self._hub_connection = (
             HubConnectionBuilder()
-            .with_url(f"{self.HOST}/SensorHub?token={self.TOKEN}")
+            .with_url(f"{self.HOST}/SensorHub?token={self.HVAC_TOKEN}")
             .configure_logging(logging.INFO)
             .with_automatic_reconnect(
                 {
@@ -66,13 +77,13 @@ class Main:
             print(err)
 
     def analyzeDatapoint(self, date, data):
-        if data >= 80.0:
-            self.sendActionToHvac(date, "TurnOnAc", 6)
-        elif data <= 20.0:
-            self.sendActionToHvac(date, "TurnOnHeater", 6)
+        if data >= self.MAX_TEMP:
+            self.sendActionToHvac(date, "TurnOnAc", self.NB_TICK)
+        elif data <= self.MIN_TEMP:
+            self.sendActionToHvac(date, "TurnOnHeater", self.NB_TICK)
 
     def sendActionToHvac(self, date, action, nbTick):
-        r = requests.get(f"{self.HOST}/api/hvac/{self.TOKEN}/{action}/{nbTick}")
+        r = requests.get(f"{self.HOST}/api/hvac/{self.HVAC_TOKEN}/{action}/{nbTick}")
         details = json.loads(r.text)
         print(details)
 
